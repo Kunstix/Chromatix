@@ -24,7 +24,7 @@ const generatePalette = basePalette => {
           rgba: chroma(scaleColor)
             .css()
             .replace('rgb', 'rgba')
-            .replace(')', ',1.0')
+            .replace(')', ',1.0)')
         })
       )
   );

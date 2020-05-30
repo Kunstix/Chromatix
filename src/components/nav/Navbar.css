@@ -3,7 +3,7 @@
 .Navbar {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   height: 6vh;
   font-family: 'Roboto Mono', sans-serif;
 }
@@ -11,6 +11,7 @@
 .logo {
   display: flex;
   align-items: center;
+  background-color: #e4e8e9;
   height: 100%;
   padding: 0 10px;
   font-family: 'Roboto Mono', sans-serif;
@@ -45,7 +46,11 @@
   height: 13px;
   margin-left: -7px;
   margin-top: -3px;
-  background-color: steelblue;
-  border: 2px solid steelblue;
+  background-color: darkgrey;
+  border: 2px solid darkgrey;
   outline: none;
+}
+
+.select-container {
+  font-size: 15px;
 }
