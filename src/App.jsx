@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Palette from './components/colors/Palette';
 import seedColors from './seedColors';
 
