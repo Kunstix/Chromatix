@@ -8,7 +8,6 @@ export default class Palette extends Component {
   state = { level: 500 };
 
   changeColorLevel(level) {
-    console.log(level);
     this.setState({ level });
   }
 
@@ -22,13 +21,15 @@ export default class Palette extends Component {
 
     return (
       <div className='Palette'>
-        <Slider
-          defaultValue={500}
-          min={100}
-          max={900}
-          step={100}
-          onAfterChange={level => this.changeColorLevel(level)}
-        />
+        <div className='Slider'>
+          <Slider
+            defaultValue={500}
+            min={100}
+            max={900}
+            step={100}
+            onAfterChange={level => this.changeColorLevel(level)}
+          />
+        </div>
         <div className='Palette-colors'>{colorBoxes}</div>
       </div>
     );

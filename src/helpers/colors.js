@@ -34,7 +34,6 @@ const generatePalette = basePalette => {
 const getRange = hexColor => {
   const startColor = chroma(hexColor).darken(1.4).hex();
   const endColor = '#fff';
-  console.log([startColor, hexColor, endColor]);
   return [startColor, hexColor, endColor];
 };
 
