@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './ColorBox.css';
 
-export default class ColorBox extends Component {
+class ColorBox extends Component {
   state = { copied: false };
 
   toggleCopy() {
@@ -37,3 +37,5 @@ export default class ColorBox extends Component {
     );
   }
 }
+
+export default ColorBox;
