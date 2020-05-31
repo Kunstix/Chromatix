@@ -1,6 +1,7 @@
 .Palette {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100vh;
   font-family: 'Roboto Mono', sans-serif;
   box-sizing: border-box;
@@ -8,5 +9,9 @@
 
   &-colors {
     height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 }

@@ -38,7 +38,7 @@ class SinglePalette extends Component {
       />
     ));
     return (
-      <div className='Palette'>
+      <div className='SinglePalette Palette'>
         <Navbar
           changeFormat={format => this.changeFormat(format)}
           showAllColors={false}
@@ -46,7 +46,7 @@ class SinglePalette extends Component {
         <div className='Palette-colors'>
           {colorBoxes}
           <div className='go-back-button'>
-            <Link to={`/palette/${id}`}>GO BACK</Link>
+            <Link to={`/palette/${id}`}>Back to Palette</Link>
           </div>
         </div>
         <Footer name={paletteName} emoji={emoji} />

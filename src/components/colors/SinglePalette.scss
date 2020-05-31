@@ -1,18 +1,18 @@
-.goBack {
+.go-back-button {
   width: 20%;
   height: 50%;
   margin: 0 auto;
   display: inline-block;
   position: relative;
   cursor: pointer;
-  margin-bottom: -3.5px;
   opacity: 1;
-  background-color: black;
+  background-color: #000;
 
   a {
-    color: white;
+    font-family: 'Roboto Mono', sans-serif;
+    color: #fff;
     width: 100px;
-    height: 30px;
+    height: auto;
     position: absolute;
     display: inline-block;
     top: 50%;
@@ -26,6 +26,7 @@
     line-height: 30px;
     text-transform: uppercase;
     border: none;
+    border-radius: 1px;
     text-decoration: none;
   }
 }

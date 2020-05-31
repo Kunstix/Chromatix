@@ -1,17 +1,19 @@
 .ColorBox {
   width: 20%;
-  height: 24%;
+  height: 25%;
   cursor: pointer;
   position: relative;
-  display: inline-block;
-  margin: 0 auto;
-  margin-bottom: 3.5px;
+  margin: 0;
   font-family: 'Roboto Mono', sans-serif;
 
   &:hover .copy-button {
     opacity: 1;
     transition: 0.5s;
   }
+}
+
+.SinglePalette .ColorBox {
+  height: 50%;
 }
 
 .copy-button {
@@ -107,12 +109,12 @@
     text-align: center;
     text-shadow: 2px 2px 7px #000;
     text-transform: uppercase;
-    margin-bottom: 0;
-    padding: 1;
+    margin: 0;
   }
 
   p {
     font-size: 2rem;
     font-weight: 100;
+    margin: 0;
   }
 }
