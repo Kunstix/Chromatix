@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 6vh;
+  height: 5%;
   font-family: 'Roboto Mono', sans-serif;
 }
 
@@ -54,4 +54,8 @@
 .select-container {
   font-size: 15px;
   margin-right: 1rem;
+}
+
+.MuiInput-underline:before {
+  border-bottom: none !important;
 }
