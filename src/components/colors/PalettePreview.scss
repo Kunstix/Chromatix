@@ -1,18 +1,25 @@
-.PalettePreview {
+.palettePreview {
   font-family: 'Roboto Mono', sans-serif;
   background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 5px;
+  border-radius: 1px;
   padding: 0.5rem;
   position: relative;
   overflow: hidden;
+  box-shadow: 2px 2px 5px #000;
+  transition: 0.2s ease-in-out;
 
   &:hover {
     cursor: 'pointer';
+    transform: scale(1.09);
+    box-shadow: 3.5px 3.5px 8px #000;
   }
 
   &-colors {
-    background-color: grey;
+    height: 100px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 1px;
+    overflow: hidden;
   }
 
   &-title {
@@ -23,10 +30,19 @@
     margin: 0;
     padding-top: 0.5rem;
     color: #000;
-    font-size: 1rem;
+    font-size: 0.7rem;
   }
   &-emoji {
     background-color: steelblue;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
+}
+
+.preview-box {
+  display: inline-block;
+  height: 25%;
+  width: 20%;
+  margin: 0 auto;
+  position: relative;
+  margin-bottom: -4.7px;
 }

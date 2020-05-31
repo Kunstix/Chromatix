@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100%;
+  height: 100vh;
   background-color: steelblue;
 }
 
@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
-  width: 70%;
+  width: 65%;
 }
 
 .palettes-nav {
@@ -23,8 +23,9 @@
 
 .palettes-board {
   display: grid;
-  grid-template-columns: repeat(3, 30%);
-  gap: 5%;
+  grid-template-columns: repeat(4, 23%);
+  gap: 3.5%;
+  row-gap: 8%;
   box-sizing: border-box;
   width: 100%;
 }
