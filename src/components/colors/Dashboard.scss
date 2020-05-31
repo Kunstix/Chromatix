@@ -1,0 +1,30 @@
+.Dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  background-color: steelblue;
+}
+
+.palettes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 70%;
+}
+
+.palettes-nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: #fff;
+}
+
+.palettes-board {
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+  gap: 5%;
+  box-sizing: border-box;
+  width: 100%;
+}
