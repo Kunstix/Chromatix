@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PalettePreview from './PalettePreview';
 import './Dashboard.scss';
 
 class Dashboard extends Component {
+  renderPalette(id) {
+    this.props.history.push(`/palette/${id}`);
+  }
+
   render() {
     const { palettes } = this.props;
     return (
@@ -13,10 +16,12 @@ class Dashboard extends Component {
             <h5>Chromatix</h5>
           </nav>
           <div className='palettes-board'>
-            {palettes.map((palette, index) => (
-              <Link key={index} to={`/palette/${palette.id}`}>
-                <PalettePreview {...palette} />
-              </Link>
+            {palettes.map(palette => (
+              <PalettePreview
+                key={palette.id}
+                {...palette}
+                handleClick={() => this.renderPalette(palette.id)}
+              />
             ))}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './PalettePreview.scss';
 
-const PalettePreview = ({ paletteName, colors, emoji }) => {
+const PalettePreview = ({ paletteName, colors, emoji, handleClick }) => {
   const previewBoxes = colors.map(color => (
     <div
       className='preview-box'
@@ -11,12 +11,12 @@ const PalettePreview = ({ paletteName, colors, emoji }) => {
   ));
 
   return (
-    <div className='palettePreview'>
+    <div className='palettePreview' onClick={handleClick}>
       <div className='palettePreview-colors'>{previewBoxes}</div>
-      <h5 className='palettePreview-title'>
+      <span className='palettePreview-title'>
         {paletteName}
         <span className='palettePreview-emoji'>{emoji}</span>
-      </h5>
+      </span>
     </div>
   );
 };
