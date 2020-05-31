@@ -1,0 +1,32 @@
+.PalettePreview {
+  font-family: 'Roboto Mono', sans-serif;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    cursor: 'pointer';
+  }
+
+  &-colors {
+    background-color: grey;
+  }
+
+  &-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    padding-top: 0.5rem;
+    color: #000;
+    font-size: 1rem;
+  }
+  &-emoji {
+    background-color: steelblue;
+    font-size: 1.5rem;
+  }
+}

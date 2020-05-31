@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import './ColorBox.css';
+import './ColorBox.scss';
 
 class ColorBox extends Component {
   state = { copied: false };

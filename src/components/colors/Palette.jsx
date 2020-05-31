@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../nav/Navbar';
 import ColorBox from './ColorBox';
 import Footer from '../nav/Footer';
-import './Palette.css';
+import './Palette.scss';
 
 class Palette extends Component {
   state = { level: 500, format: 'hex' };
