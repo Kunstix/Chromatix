@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import chroma from 'chroma-js';
+import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './ColorBox.scss';
 
 class ColorBox extends Component {
   state = { copied: false };
+
+  constructor(props) {
+    super(props);
+    this.isDark = chroma(props.bg).luminance() <= 0.2;
+    this.isLight = chroma(props.bg).luminance() >= 0.6;
+  }
 
   toggleCopy() {
     this.setState({ copied: true }, () => {
@@ -12,34 +19,57 @@ class ColorBox extends Component {
     });
   }
 
+  renderCopyButton() {
+    return (
+      <div className='copy-container'>
+        <div className='box-content'>
+          <span className={`${this.isDark && 'white-text'}`}>
+            {this.props.name}
+          </span>
+        </div>
+        <button className={`copy-button ${this.isLight && 'grey-text'}`}>
+          Copy
+        </button>
+      </div>
+    );
+  }
+
+  renderCopyOverlay() {
+    const { bg } = this.props;
+    return (
+      <div>
+        <div
+          className={`copy-overlay ${this.state.copied && 'show'}`}
+          style={{ backgroundColor: bg }}
+        />
+        <div className={`copy-msg ${this.state.copied && 'show'}`}>
+          <h1>COPIED!</h1>
+          <p className={`${this.isLight && 'black-text'}`}>{bg}</p>
+        </div>
+      </div>
+    );
+  }
+
+  renderMore() {
+    return (
+      <Link
+        to={`/palette/${this.props.paletteId}/${this.propscolorId}`}
+        onClick={event => event.stopPropagation()}
+      >
+        <span className={`more ${this.isLight ? 'grey' : 'white'}-text`}>
+          MORE
+        </span>
+      </Link>
+    );
+  }
   render() {
-    const { name, bg, paletteId, colorId, showLink } = this.props;
-    const { copied } = this.state;
+    const { bg, showLink } = this.props;
     return (
       <CopyToClipboard text={bg} onCopy={() => this.toggleCopy()}>
         <div className='ColorBox' style={{ backgroundColor: bg }}>
-          <div
-            className={`copy-overlay ${copied && 'show'}`}
-            style={{ backgroundColor: bg }}
-          />
-          <div className={`copy-msg ${copied && 'show'}`}>
-            <h1>COPIED!</h1>
-            <p>{bg}</p>
-          </div>
-          <div className='copy-container'>
-            <div className='box-content'>
-              <span>{name}</span>
-            </div>
-            <button className='copy-button'>Copy</button>
-          </div>
-          {showLink && (
-            <Link
-              to={`/palette/${paletteId}/${colorId}`}
-              onClick={event => event.stopPropagation()}
-            >
-              <span className='more'>MORE</span>
-            </Link>
-          )}
+          {this.renderCopyOverlay()}
+          {this.renderCopyButton()}
+          {showLink && this.renderMore()}
         </div>
       </CopyToClipboard>
     );

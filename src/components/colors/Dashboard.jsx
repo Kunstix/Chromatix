@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PalettePreview from './PalettePreview';
 import './Dashboard.scss';
 
@@ -14,6 +15,9 @@ class Dashboard extends Component {
         <div className='palettes-container'>
           <nav className='palettes-nav'>
             <h5>Chromatix</h5>
+            <Link className='bubbly-button' to='/palette/new'>
+              Create Palette
+            </Link>
           </nav>
           <div className='palettes-board'>
             {palettes.map(palette => (
