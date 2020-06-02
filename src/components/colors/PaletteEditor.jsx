@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,15 +8,29 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { ChromePicker } from 'react-color';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import DragBox from './DragBox';
 import './PaletteEditor.scss';
 
-const drawerWidth = 240;
+const drawerWidth = 400;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex'
+  },
+  buttonBlue: {
+    backgroundColor: 'steelblue',
+    fontFamily: 'Roboto Mono',
+    color: 'white'
+  },
+  buttonDark: {
+    backgroundColor: 'lightcoral',
+    fontFamily: 'Roboto Mono',
+    color: 'white'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
@@ -57,6 +71,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    height: 'calc(100vh - 64px)',
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -75,7 +90,21 @@ const useStyles = makeStyles(theme => ({
 
 function PaletteEditor(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('teal');
+  const [newColorName, setNewColorName] = useState('');
+  const [colors, setColors] = useState([{ name: 'blue', color: 'blue' }]);
+
+  useEffect(() => {
+    ValidatorForm.addValidationRule('isNameUnique', newName => {
+      return colors.every(
+        ({ name }) => name.toLowerCase() !== newName.toLowerCase()
+      );
+    });
+    ValidatorForm.addValidationRule('isColorUnique', value => {
+      return colors.every(({ color }) => color !== selectedColor);
+    });
+  }, [colors, selectedColor]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -83,6 +112,20 @@ function PaletteEditor(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleSelectedColor = newColor => {
+    setSelectedColor(newColor.hex);
+  };
+
+  const handleChangeName = event => {
+    setNewColorName(event.target.value);
+  };
+
+  const addColor = () => {
+    const newColor = { color: selectedColor, name: newColorName };
+    setColors([...colors, newColor]);
+    setNewColorName('');
   };
 
   return (
@@ -124,6 +167,40 @@ function PaletteEditor(props) {
           </IconButton>
         </div>
         <Divider />
+        <Typography variant='h5' style={{ fontFamily: 'Roboto Mono' }}>
+          Design your palette
+        </Typography>
+        <ChromePicker
+          color={selectedColor}
+          onChangeComplete={handleSelectedColor}
+        />
+        <ValidatorForm onSubmit={addColor}>
+          <TextValidator
+            value={newColorName}
+            onChange={handleChangeName}
+            validators={['required', 'isNameUnique', 'isColorUnique']}
+            errorMessages={[
+              'Every color needs a name.',
+              'Name is already taken.',
+              'Color value already added.'
+            ]}
+          />
+          <Button
+            type='submit'
+            variant='contained'
+            className={classes.buttonBlue}
+            style={{ backgroundColor: selectedColor }}
+          >
+            Add Color
+          </Button>
+        </ValidatorForm>
+
+        <Button variant='contained' className={classes.buttonBlue}>
+          Random Color
+        </Button>
+        <Button className={classes.buttonDark} variant='contained'>
+          Clear Palette
+        </Button>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -131,6 +208,9 @@ function PaletteEditor(props) {
         })}
       >
         <div className={classes.drawerHeader} />
+        {colors.map(color => (
+          <DragBox key={color.name} name={color.name} color={color.color} />
+        ))}
       </main>
     </div>
   );
