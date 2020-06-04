@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
   buttonDark: {
     backgroundColor: 'lightcoral',
     fontFamily: 'Roboto Mono',
+    fontWeight: '400',
     color: 'white'
   },
   appBar: {
@@ -37,8 +38,8 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    backgroundColor: 'steelblue',
-    fontFamily: 'Roboto Mono'
+    fontFamily: 'Roboto Mono',
+    backgroundColor: 'default'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -88,12 +89,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PaletteEditor(props) {
+function PaletteEditor({ savePalette, palettes, history }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState('teal');
   const [newColorName, setNewColorName] = useState('');
   const [colors, setColors] = useState([{ name: 'blue', color: 'blue' }]);
+  const [paletteName, setPaletteName] = useState('');
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isNameUnique', newName => {
@@ -104,7 +106,13 @@ function PaletteEditor(props) {
     ValidatorForm.addValidationRule('isColorUnique', value => {
       return colors.every(({ color }) => color !== selectedColor);
     });
-  }, [colors, selectedColor]);
+    ValidatorForm.addValidationRule('isPaletteUnique', value => {
+      return palettes.every(
+        palette =>
+          palette.paletteName.toLowerCase() !== paletteName.toLocaleLowerCase()
+      );
+    });
+  }, [colors, selectedColor, palettes, paletteName]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,8 +126,22 @@ function PaletteEditor(props) {
     setSelectedColor(newColor.hex);
   };
 
-  const handleChangeName = event => {
+  const handleChangeColorName = event => {
     setNewColorName(event.target.value);
+  };
+
+  const handleChangePaletteName = event => {
+    setPaletteName(event.target.value);
+  };
+
+  const handleSave = () => {
+    const newPalette = {
+      paletteName,
+      colors,
+      id: paletteName.toLowerCase().replace(/ /g, '-')
+    };
+    savePalette(newPalette);
+    history.push('/');
   };
 
   const addColor = () => {
@@ -132,6 +154,7 @@ function PaletteEditor(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        color='default'
         position='fixed'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open
@@ -147,9 +170,32 @@ function PaletteEditor(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap style={{ fontFamily: 'Roboto Mono' }}>
-            Chromatix
+          <Typography
+            variant='h6'
+            noWrap
+            style={{ fontFamily: 'Roboto Mono', fontWeight: '400' }}
+          >
+            CHROMATIX
           </Typography>
+          <ValidatorForm onSubmit={handleSave}>
+            <TextValidator
+              label='Palette Name'
+              value={paletteName}
+              onChange={handleChangePaletteName}
+              validators={['required', 'isPaletteUnique']}
+              errorMessages={[
+                'Every palette needs a name.',
+                'Palettename is already taken.'
+              ]}
+            />
+            <Button
+              type='submit'
+              variant='contained'
+              className={classes.buttonDark}
+            >
+              Save Palette
+            </Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -177,7 +223,7 @@ function PaletteEditor(props) {
         <ValidatorForm onSubmit={addColor}>
           <TextValidator
             value={newColorName}
-            onChange={handleChangeName}
+            onChange={handleChangeColorName}
             validators={['required', 'isNameUnique', 'isColorUnique']}
             errorMessages={[
               'Every color needs a name.',

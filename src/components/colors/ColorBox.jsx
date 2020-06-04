@@ -53,7 +53,7 @@ class ColorBox extends Component {
   renderMore() {
     return (
       <Link
-        to={`/palette/${this.props.paletteId}/${this.propscolorId}`}
+        to={`/palette/${this.props.paletteId}/${this.props.colorId}`}
         onClick={event => event.stopPropagation()}
       >
         <span className={`more ${this.isLight ? 'grey' : 'white'}-text`}>
