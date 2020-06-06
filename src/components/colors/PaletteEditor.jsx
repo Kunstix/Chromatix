@@ -41,6 +41,15 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Roboto Mono',
     backgroundColor: 'default'
   },
+  toolBar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  saveForm: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -60,12 +69,13 @@ const useStyles = makeStyles(theme => ({
     flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   drawerHeader: {
     display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
+    alignItems: 'flex-end',
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end'
@@ -150,6 +160,10 @@ function PaletteEditor({ savePalette, palettes, history }) {
     setNewColorName('');
   };
 
+  const deleteColor = name => {
+    setColors(colors.filter(color => color.name !== name));
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -160,7 +174,7 @@ function PaletteEditor({ savePalette, palettes, history }) {
           [classes.appBarShift]: open
         })}
       >
-        <Toolbar>
+        <Toolbar className={clsx(classes.toolBar)}>
           <IconButton
             color='inherit'
             aria-label='open drawer'
@@ -177,7 +191,10 @@ function PaletteEditor({ savePalette, palettes, history }) {
           >
             CHROMATIX
           </Typography>
-          <ValidatorForm onSubmit={handleSave}>
+          <ValidatorForm
+            className={clsx(classes.saveForm)}
+            onSubmit={handleSave}
+          >
             <TextValidator
               label='Palette Name'
               value={paletteName}
@@ -212,8 +229,10 @@ function PaletteEditor({ savePalette, palettes, history }) {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <Divider />
-        <Typography variant='h5' style={{ fontFamily: 'Roboto Mono' }}>
+        <Typography
+          variant='h5'
+          style={{ fontFamily: 'Roboto Mono', fontSize: '15px' }}
+        >
           Design your palette
         </Typography>
         <ChromePicker
@@ -240,13 +259,15 @@ function PaletteEditor({ savePalette, palettes, history }) {
             Add Color
           </Button>
         </ValidatorForm>
-
-        <Button variant='contained' className={classes.buttonBlue}>
-          Random Color
-        </Button>
-        <Button className={classes.buttonDark} variant='contained'>
-          Clear Palette
-        </Button>
+        <span>
+          <Button variant='contained' className={classes.buttonBlue}>
+            Random Color
+          </Button>
+          <Button className={classes.buttonDark} variant='contained'>
+            Clear Palette
+          </Button>
+        </span>
+        <Divider />
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -255,7 +276,12 @@ function PaletteEditor({ savePalette, palettes, history }) {
       >
         <div className={classes.drawerHeader} />
         {colors.map(color => (
-          <DragBox key={color.name} name={color.name} color={color.color} />
+          <DragBox
+            key={color.name}
+            name={color.name}
+            color={color.color}
+            deleteColor={() => deleteColor(color.name)}
+          />
         ))}
       </main>
     </div>

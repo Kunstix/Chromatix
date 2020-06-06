@@ -14,7 +14,7 @@ class Dashboard extends Component {
       <div className='Dashboard'>
         <div className='palettes-container'>
           <nav className='palettes-nav'>
-            <h5>Chromatix</h5>
+            <h3>CHROMATIX</h3>
             <Link className='bubbly-button' to='/palette/new'>
               Create Palette
             </Link>
