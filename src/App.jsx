@@ -15,7 +15,6 @@ const App = () => {
   };
 
   const savePalette = newPalette => {
-    console.log(palettes);
     setPalettes([...palettes, newPalette], () => {
       console.log(palettes);
     });

@@ -13,10 +13,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { ChromePicker } from 'react-color';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import DragBox from './DragBox';
+import { arrayMove } from 'react-sortable-hoc';
+import DragBoxList from './DragBoxList';
 import './PaletteEditor.scss';
 
-const drawerWidth = 400;
+const drawerWidth = 380;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,6 +50,10 @@ const useStyles = makeStyles(theme => ({
   saveForm: {
     display: 'flex',
     alignItems: 'center'
+  },
+  colorForm: {
+    display: 'flex',
+    flexDirection: 'column'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -99,15 +104,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PaletteEditor({ savePalette, palettes, history }) {
+function PaletteEditor(props) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [selectedColor, setSelectedColor] = useState('teal');
   const [newColorName, setNewColorName] = useState('');
   const [colors, setColors] = useState([{ name: 'blue', color: 'blue' }]);
   const [paletteName, setPaletteName] = useState('');
 
+  const { savePalette, palettes, history } = props;
   useEffect(() => {
+    console.log(props);
     ValidatorForm.addValidationRule('isNameUnique', newName => {
       return colors.every(
         ({ name }) => name.toLowerCase() !== newName.toLowerCase()
@@ -164,6 +171,10 @@ function PaletteEditor({ savePalette, palettes, history }) {
     setColors(colors.filter(color => color.name !== name));
   };
 
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setColors(arrayMove(colors, oldIndex, newIndex));
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -196,6 +207,8 @@ function PaletteEditor({ savePalette, palettes, history }) {
             onSubmit={handleSave}
           >
             <TextValidator
+              size='small'
+              variant='outlined'
               label='Palette Name'
               value={paletteName}
               onChange={handleChangePaletteName}
@@ -229,44 +242,49 @@ function PaletteEditor({ savePalette, palettes, history }) {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <Typography
-          variant='h5'
-          style={{ fontFamily: 'Roboto Mono', fontSize: '15px' }}
-        >
-          Design your palette
-        </Typography>
-        <ChromePicker
-          color={selectedColor}
-          onChangeComplete={handleSelectedColor}
-        />
-        <ValidatorForm onSubmit={addColor}>
-          <TextValidator
-            value={newColorName}
-            onChange={handleChangeColorName}
-            validators={['required', 'isNameUnique', 'isColorUnique']}
-            errorMessages={[
-              'Every color needs a name.',
-              'Name is already taken.',
-              'Color value already added.'
-            ]}
-          />
-          <Button
-            type='submit'
-            variant='contained'
-            className={classes.buttonBlue}
-            style={{ backgroundColor: selectedColor }}
+        <div className='editor-container'>
+          <Typography
+            variant='h5'
+            style={{ fontFamily: 'Roboto Mono', fontSize: '20px' }}
           >
-            Add Color
-          </Button>
-        </ValidatorForm>
-        <span>
-          <Button variant='contained' className={classes.buttonBlue}>
-            Random Color
-          </Button>
-          <Button className={classes.buttonDark} variant='contained'>
-            Clear Palette
-          </Button>
-        </span>
+            Design your palette
+          </Typography>
+          <ChromePicker
+            color={selectedColor}
+            onChangeComplete={handleSelectedColor}
+          />
+          <ValidatorForm onSubmit={addColor} className={classes.colorForm}>
+            <TextValidator
+              size='small'
+              variant='outlined'
+              label='Color Name'
+              value={newColorName}
+              onChange={handleChangeColorName}
+              validators={['required', 'isNameUnique', 'isColorUnique']}
+              errorMessages={[
+                'Every color needs a name.',
+                'Name is already taken.',
+                'Color value already added.'
+              ]}
+            />
+            <Button
+              type='submit'
+              variant='contained'
+              className={classes.buttonBlue}
+              style={{ backgroundColor: selectedColor }}
+            >
+              Add Color
+            </Button>
+          </ValidatorForm>
+          <div className='editor-buttons'>
+            <Button variant='contained' className={classes.buttonBlue}>
+              Random Color
+            </Button>
+            <Button className={classes.buttonDark} variant='contained'>
+              Clear Palette
+            </Button>
+          </div>
+        </div>
         <Divider />
       </Drawer>
       <main
@@ -275,14 +293,12 @@ function PaletteEditor({ savePalette, palettes, history }) {
         })}
       >
         <div className={classes.drawerHeader} />
-        {colors.map(color => (
-          <DragBox
-            key={color.name}
-            name={color.name}
-            color={color.color}
-            deleteColor={() => deleteColor(color.name)}
-          />
-        ))}
+        <DragBoxList
+          colors={colors}
+          deleteColor={deleteColor}
+          axis='xy'
+          onSortEnd={onSortEnd}
+        />
       </main>
     </div>
   );
