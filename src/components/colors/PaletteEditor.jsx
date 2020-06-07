@@ -104,17 +104,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PaletteEditor(props) {
+function PaletteEditor({ savePalette, palettes, history, maxColors = 20 }) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [selectedColor, setSelectedColor] = useState('teal');
   const [newColorName, setNewColorName] = useState('');
-  const [colors, setColors] = useState([{ name: 'blue', color: 'blue' }]);
+  const [colors, setColors] = useState(palettes[0].colors);
   const [paletteName, setPaletteName] = useState('');
 
-  const { savePalette, palettes, history } = props;
   useEffect(() => {
-    console.log(props);
     ValidatorForm.addValidationRule('isNameUnique', newName => {
       return colors.every(
         ({ name }) => name.toLowerCase() !== newName.toLowerCase()
@@ -171,9 +169,21 @@ function PaletteEditor(props) {
     setColors(colors.filter(color => color.name !== name));
   };
 
+  const clearColors = () => {
+    setColors([]);
+  };
+
+  const randomColor = () => {
+    const allColors = palettes.map(palette => palette.colors).flat();
+    const random = Math.floor(Math.random() * allColors.length);
+    setColors([...colors, allColors[random]]);
+  };
+
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setColors(arrayMove(colors, oldIndex, newIndex));
   };
+
+  const full = colors.length >= maxColors;
 
   return (
     <div className={classes.root}>
@@ -271,16 +281,26 @@ function PaletteEditor(props) {
               type='submit'
               variant='contained'
               className={classes.buttonBlue}
-              style={{ backgroundColor: selectedColor }}
+              style={{ backgroundColor: full ? 'grey' : selectedColor }}
+              disabled={full}
             >
-              Add Color
+              {full ? 'Full Palette' : 'Add Color'}
             </Button>
           </ValidatorForm>
           <div className='editor-buttons'>
-            <Button variant='contained' className={classes.buttonBlue}>
-              Random Color
+            <Button
+              variant='contained'
+              className={classes.buttonBlue}
+              onClick={randomColor}
+              disabled={full}
+            >
+              {full ? 'Full Palette' : 'Random Color'}
             </Button>
-            <Button className={classes.buttonDark} variant='contained'>
+            <Button
+              className={classes.buttonDark}
+              variant='contained'
+              onClick={clearColors}
+            >
               Clear Palette
             </Button>
           </div>
