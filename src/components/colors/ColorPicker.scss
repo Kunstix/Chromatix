@@ -1,0 +1,24 @@
+.ColorPicker {
+  display: flex;
+  height: 60%;
+  width: 90%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  .chrome-picker {
+    width: 100% !important;
+  }
+}
+
+.button-blue {
+  background-color: steelblue !important;
+  font-family: 'Roboto Mono';
+  color: white !important;
+}
+
+.color-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

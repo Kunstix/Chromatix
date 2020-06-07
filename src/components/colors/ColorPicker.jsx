@@ -4,7 +4,7 @@ import { ChromePicker } from 'react-color';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import './ColorPicker.scss';
 
-const ColorPicker = ({ full, classes, addColor, colors }) => {
+const ColorPicker = ({ full, addColor, colors }) => {
   const [selectedColor, setSelectedColor] = useState('teal');
   const [newColorName, setNewColorName] = useState('');
 
@@ -42,7 +42,7 @@ const ColorPicker = ({ full, classes, addColor, colors }) => {
         color={selectedColor}
         onChangeComplete={handleSelectedColor}
       />
-      <ValidatorForm onSubmit={handleAddColor} className={classes.colorForm}>
+      <ValidatorForm onSubmit={handleAddColor} className='color-form'>
         <TextValidator
           size='small'
           variant='outlined'
@@ -59,8 +59,10 @@ const ColorPicker = ({ full, classes, addColor, colors }) => {
         <Button
           type='submit'
           variant='contained'
-          className={classes.buttonBlue}
-          style={{ backgroundColor: full ? 'grey' : selectedColor }}
+          style={{
+            backgroundColor: full ? 'grey' : selectedColor,
+            color: 'white'
+          }}
           disabled={full}
         >
           {full ? 'Full Palette' : 'Add Color'}

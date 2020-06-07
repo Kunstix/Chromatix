@@ -1,0 +1,57 @@
+$drawerWidth: 280px;
+
+.appBar {
+  font-family: 'Roboto Mono';
+  background-color: 'default';
+  transition: all 0.3s ease-out;
+  transition-property: margin, width;
+
+  .toolBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    a {
+      font-family: 'Roboto Mono';
+      font-size: 20px;
+      color: black;
+      text-decoration: none;
+      width: auto;
+      display: block;
+      height: 100% !important;
+    }
+  }
+
+  .save-form {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-button {
+    margin-right: 2px;
+  }
+}
+
+.appBar-shift {
+  width: calc(100% - 280px) !important;
+  margin-left: $drawerWidth;
+  transition: all 0.3s ease-in-out;
+  transition-property: margin, width;
+}
+
+.hide {
+  display: none !important;
+}
+
+.button-dark {
+  background-color: lightcoral !important;
+  font-family: 'Roboto Mono';
+  font-weight: 400;
+  color: white !important;
+}
+
+.MuiToolbar-regular {
+  min-height: 5% !important;
+  height: 5% !important;
+}

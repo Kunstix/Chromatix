@@ -11,7 +11,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Link } from 'react-router-dom';
 import './Appbar.scss';
 
-const Appbar = ({ classes, open, palettes, handleSave, handleDrawerOpen }) => {
+const Appbar = ({ open, palettes, handleSave, handleDrawerOpen }) => {
   const [paletteName, setPaletteName] = useState('');
 
   useEffect(() => {
@@ -33,29 +33,22 @@ const Appbar = ({ classes, open, palettes, handleSave, handleDrawerOpen }) => {
       <AppBar
         color='default'
         position='fixed'
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open
-        })}
+        size='small'
+        className={`appBar ${open && 'appBar-shift'}`}
       >
-        <Toolbar className={clsx(classes.toolBar)}>
+        <Toolbar className='toolBar'>
           <IconButton
             color='inherit'
             aria-label='open drawer'
             onClick={handleDrawerOpen}
             edge='start'
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={`menu-button ${open && 'hide'}`}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant='h6'
-            noWrap
-            style={{ fontFamily: 'Roboto Mono', fontWeight: '400' }}
-          >
-            <Link to='/'>CHROMATIX</Link>
-          </Typography>
+          <Link to='/'>CHROMATIX</Link>
           <ValidatorForm
-            className={clsx(classes.saveForm)}
+            className='save-form'
             onSubmit={() => handleSave(paletteName)}
           >
             <TextValidator
@@ -70,11 +63,7 @@ const Appbar = ({ classes, open, palettes, handleSave, handleDrawerOpen }) => {
                 'Palettename is already taken.'
               ]}
             />
-            <Button
-              type='submit'
-              variant='contained'
-              className={classes.buttonDark}
-            >
+            <Button type='submit' variant='contained' className='button-dark'>
               Save Palette
             </Button>
           </ValidatorForm>
