@@ -10,7 +10,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import './PaletteSaveForm.scss';
 
 const PaletteSaveForm = ({ palettes, handleSave }) => {
-  const [open, setOpen] = useState(false);
+  const [stage, setStage] = useState('closed');
   const [paletteName, setPaletteName] = useState('');
 
   useEffect(() => {
@@ -27,11 +27,19 @@ const PaletteSaveForm = ({ palettes, handleSave }) => {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setStage('name');
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setStage('closed');
+  };
+
+  const showEmojiPicker = () => {
+    setStage('emoji');
+  };
+
+  const savePalette = emoji => {
+    handleSave({ paletteName, emoji: emoji.native });
   };
 
   return (
@@ -39,18 +47,17 @@ const PaletteSaveForm = ({ palettes, handleSave }) => {
       <Button size='small' variant='contained' onClick={handleClickOpen}>
         Save Palette
       </Button>
+      <Dialog open={stage === 'emoji'}>
+        <Picker onSelect={savePalette} />
+      </Dialog>
       <Dialog
-        open={open}
+        open={stage === 'name'}
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>Choose a Palette Name</DialogTitle>
-        <ValidatorForm
-          className='save-form'
-          onSubmit={() => handleSave(paletteName)}
-        >
+        <ValidatorForm className='save-form' onSubmit={() => showEmojiPicker()}>
           <DialogContent>
-            <Picker />
             <TextValidator
               size='small'
               fullWidth

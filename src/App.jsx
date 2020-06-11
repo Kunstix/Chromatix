@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Palette from './components/colors/Palette';
-import Dashboard from './components/colors/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import SinglePalette from './components/colors/SinglePalette';
-import PaletteEditor from './components/colors/PaletteEditor';
+import PaletteEditor from './components/editor/PaletteEditor';
 import { Route, Switch } from 'react-router-dom';
 import { generatePalette } from './helpers/colors';
-import seedColors from './seedColors';
+import seedColors from './helpers/seedColors';
 
 const App = () => {
   const [palettes, setPalettes] = useState(seedColors);

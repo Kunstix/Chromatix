@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { arrayMove } from 'react-sortable-hoc';
 import ColorPicker from './ColorPicker';
-import DragBoxList from './DragBoxList';
+import DragBoxList from '../colors/DragBoxList';
 import Appbar from '../nav/Appbar';
 import './PaletteEditor.scss';
 
@@ -24,11 +22,12 @@ function PaletteEditor({ savePalette, palettes, history, maxColors = 20 }) {
     setOpen(false);
   };
 
-  const handleSave = paletteName => {
+  const handleSave = ({ paletteName, emoji }) => {
     const newPalette = {
       paletteName,
       colors,
-      id: paletteName.toLowerCase().replace(/ /g, '-')
+      id: paletteName.toLowerCase().replace(/ /g, '-'),
+      emoji
     };
     savePalette(newPalette);
     history.push('/');
@@ -81,12 +80,6 @@ function PaletteEditor({ savePalette, palettes, history, maxColors = 20 }) {
           </IconButton>
         </div>
         <div className='editor-container'>
-          <Typography
-            variant='h5'
-            style={{ fontFamily: 'Roboto Mono', fontSize: '20px' }}
-          >
-            Design your palette
-          </Typography>
           <ColorPicker full={full} addColor={addColor} colors={colors} />
           <div className='editor-buttons'>
             <Button
