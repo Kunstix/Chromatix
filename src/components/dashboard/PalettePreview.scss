@@ -7,11 +7,15 @@
   overflow: hidden;
   box-shadow: 2px 2px 5px #000;
   transition: 0.2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
-    cursor: 'pointer';
     transform: scale(1.09);
     box-shadow: 3.5px 3.5px 8px #000;
+
+    svg {
+      opacity: 1;
+    }
   }
 
   &-colors {
@@ -35,6 +39,22 @@
   }
   &-emoji {
     font-size: 1rem;
+  }
+
+  &-delete-button {
+  }
+
+  &-delete-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2rem !important;
+    height: 2rem !important;
+    padding: 8px;
+    z-index: 10;
+    color: white;
+    background-color: #de4536;
+    opacity: 0;
   }
 }
 

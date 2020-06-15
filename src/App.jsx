@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Palette from './components/palettes/Palette';
 import Dashboard from './components/dashboard/Dashboard';
 import SinglePalette from './components/palettes/SinglePalette';
@@ -12,16 +12,24 @@ const App = () => {
   const savedPalettes = JSON.parse(window.localStorage.getItem('palettes'));
   const [palettes, setPalettes] = useState(savedPalettes || seedColors);
 
+  const syncLocalStorage = () => {
+    window.localStorage.setItem('palettes', JSON.stringify(palettes));
+    console.log(palettes);
+  };
+
+  useEffect(syncLocalStorage, [palettes]);
+
   const findPalette = id => {
     return palettes.find(palette => palette.id === id);
   };
 
   const savePalette = newPalette => {
-    setPalettes([...palettes, newPalette], syncLocalStorage);
+    setPalettes([...palettes, newPalette]);
   };
 
-  const syncLocalStorage = () => {
-    window.localStorage.setItem('palettes', JSON.stringify(palettes));
+  const deletePalette = id => {
+    console.log(id);
+    setPalettes(palettes.filter(palette => palette.id !== id));
   };
 
   return (
@@ -40,7 +48,13 @@ const App = () => {
       <Route
         exact
         path='/'
-        render={routeProps => <Dashboard palettes={palettes} {...routeProps} />}
+        render={routeProps => (
+          <Dashboard
+            palettes={palettes}
+            {...routeProps}
+            deletePalette={deletePalette}
+          />
+        )}
       />
       <Route
         exact
