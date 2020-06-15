@@ -47,15 +47,17 @@ const PaletteSaveForm = ({ palettes, handleSave }) => {
       <Button size='small' variant='contained' onClick={handleClickOpen}>
         Save Palette
       </Button>
-      <Dialog open={stage === 'emoji'}>
-        <Picker onSelect={savePalette} />
+      <Dialog open={stage === 'emoji'} onClose={handleClose}>
+        <DialogTitle id='form-dialog-title'>Pick a Palette Emoji</DialogTitle>
+
+        <Picker onSelect={savePalette} title='Pick a Palette Emoji:' />
       </Dialog>
       <Dialog
         open={stage === 'name'}
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Choose a Palette Name</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Pick a Palette Name</DialogTitle>
         <ValidatorForm className='save-form' onSubmit={() => showEmojiPicker()}>
           <DialogContent>
             <TextValidator
